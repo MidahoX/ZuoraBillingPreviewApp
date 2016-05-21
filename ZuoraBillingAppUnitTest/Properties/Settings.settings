@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ZuoraBillingAppUnitTest.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ZuoraBillingAppUnitTest_WebReference_ZuoraService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://www.zuora.com/apps/services/a/76.0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
