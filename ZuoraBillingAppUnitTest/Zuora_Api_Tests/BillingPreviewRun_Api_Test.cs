@@ -28,7 +28,7 @@ namespace ZuoraBillingAppUnitTest.Zuora_Api_Test
         [TestMethod]
         public void Submit_BillingPreviewRun_Request_Return_RequestId()
         {
-            string requestId = BillingService.SubmitBillingPreviewRequest("");
+            string requestId = BillingService.SubmitBillingPreviewRequest(new DateTime(2017, 1, 1));
 
             // if there is no error message than submit successfully
             Assert.IsTrue(!string.IsNullOrWhiteSpace(requestId));            

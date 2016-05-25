@@ -46,10 +46,10 @@ namespace ZuoraBillingPreviewApp.App_Code
             }
         }
 
-        public string SubmitBillingPreviewRequest(string targetDate)
+        public string SubmitBillingPreviewRequest(DateTime targetDate)
         {
             BillingPreviewRun billPreviewRun = new BillingPreviewRun();
-            billPreviewRun.TargetDate = new DateTime(2017, 1, 1);
+            billPreviewRun.TargetDate = targetDate;
             billPreviewRun.TargetDateSpecified = true;
 
             // create zuora request object
@@ -84,7 +84,7 @@ namespace ZuoraBillingPreviewApp.App_Code
                 {
                     foreach (BillingPreviewRun record in qr.records)
                     {
-                        return new BillingPreviewRunResult(record.Status, record.ResultFileUrl, (int) record.TotalAccounts, (DateTime) record.UpdatedDate);
+                        return new BillingPreviewRunResult(record.Status, record.ResultFileUrl, (int) record.TotalAccounts, (DateTime) record.UpdatedDate, "", requestId);
                     }
                 }
             }
@@ -93,7 +93,7 @@ namespace ZuoraBillingPreviewApp.App_Code
 
             }
 
-            return new BillingPreviewRunResult("Error", "", 0, DateTime.Now);
+            return new BillingPreviewRunResult("Error", "", 0, DateTime.Now, "", requestId);
         }
 
         public SaveResultStatus ProcessSingleRequest(SaveResult[] results)
@@ -136,13 +136,17 @@ namespace ZuoraBillingPreviewApp.App_Code
         public string ResultFileUrl { get; set; }
         public int TotalAccounts { get; set; }
         public DateTime UpdateDate { get; set; }
+        public string Message { get; set; }
+        public string RequestId { get; set; }
 
-        public BillingPreviewRunResult(string status, string resultFileUrl, int totalAccounts, DateTime updateDate)
+        public BillingPreviewRunResult(string status, string resultFileUrl, int totalAccounts, DateTime updateDate, string message, string requestId)
         {
             this.Status = status;
             this.ResultFileUrl = resultFileUrl;
             this.TotalAccounts = totalAccounts;
             this.UpdateDate = updateDate;
+            this.Message = message;
+            this.RequestId = requestId;
         }
     }
 }

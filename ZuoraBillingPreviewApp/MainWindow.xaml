@@ -1,15 +1,19 @@
 ﻿<Window x:Class="ZuoraBillingPreviewApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Zuora Billing Preview Run App" Height="350" Width="525" ResizeMode="NoResize">
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        Title="Zuora Billing Preview Run App" Height="450" Width="525" ResizeMode="NoResize" Icon="Content/Images/tool.ico">
     <Grid>
-        <Button Name="btnSubmit" Content="Submit Request" Margin="258,143,124,141" Click="btnSubmit_Click"></Button>
-        <TextBox x:Name="txtApiUserId" Text="" Margin="258,25,114,259"/>
-        <PasswordBox Name="txtApiUserPassword" Margin="258,62,114,222"></PasswordBox>
-        <Label Content="UserID" HorizontalAlignment="Left" Margin="40,25,0,0" VerticalAlignment="Top"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="40,62,0,0" VerticalAlignment="Top"/>
-        <Label Content="Target Date" HorizontalAlignment="Left" Margin="40,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.493,2.231"/>
-        <DatePicker Name="txtTargetDate" HorizontalAlignment="Left" Margin="258,99,0,0" VerticalAlignment="Top" Height="31" Width="137"/>
-        <Label Name="lbResult" Content="" HorizontalAlignment="Left" Margin="40,195,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.493,2.231" Height="50" Width="427"/>
+        <Button Name="btnSubmit" Content="Submit BillingPreviewRun Request" Margin="258,201,59,174" Click="btnSubmit_Click"></Button>
+        <TextBox x:Name="txtApiUserId" Text="" Margin="258,32,59,347"/>
+        <PasswordBox Name="txtApiUserPassword" Margin="258,74,59,306"></PasswordBox>
+        <Label Content="Api UserID" Margin="40,32,284,352"/>
+        <Label Content="Password" Margin="40,74,284,311" RenderTransformOrigin="0.583,0.031"/>
+        <Label Content="BillingPreviewRun Target Date" Margin="40,115,284,269" RenderTransformOrigin="0.493,2.231"/>
+        <DatePicker Name="txtTargetDate" Margin="258,114,59,265"/>
+        <TextBox Name="lbResult" Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" BorderThickness="0" Margin="40,263,39,29" RenderTransformOrigin="0.493,2.231" ScrollViewer.CanContentScroll="True" />
+        <Image Name="imgLoading" gif:ImageBehavior.AnimatedSource="Content/Images/load.gif" Margin="232,243,239,34" Visibility="Hidden"/>
+        <TextBox x:Name="txtRequestId" Margin="258,156,59,225" TextChanged="txtRequestId_TextChanged"/>
+        <Label Content="Request ID (Optional)&#xD;&#xA;" Margin="40,157,284,224" RenderTransformOrigin="0.493,2.231"/>
     </Grid>
 </Window>
