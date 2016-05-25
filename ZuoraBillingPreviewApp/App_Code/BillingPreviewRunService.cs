@@ -69,7 +69,7 @@ namespace ZuoraBillingPreviewApp.App_Code
             }
             catch
             {
-                return "";
+                return ""; 
             }
         }
 
