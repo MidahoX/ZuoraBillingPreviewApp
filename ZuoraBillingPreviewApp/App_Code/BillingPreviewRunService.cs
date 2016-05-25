@@ -11,7 +11,7 @@ namespace ZuoraBillingPreviewApp.App_Code
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public string TargetDate { get; set; }        
+        public string TargetDate { get; set; }
 
         private ZuoraService ZuoraServiceInstance;
 
@@ -39,10 +39,12 @@ namespace ZuoraBillingPreviewApp.App_Code
                 {
                     return false;
                 }
-            }catch{
+            }
+            catch
+            {
                 return false;
             }
-        }        
+        }
 
         public string SubmitBillingPreviewRequest(string targetDate)
         {
@@ -71,11 +73,10 @@ namespace ZuoraBillingPreviewApp.App_Code
             }
         }
 
-        public string GetBillingRequestById(string requestId)
+        public BillingPreviewRunResult GetBillingRequestById(string requestId)
         {
-            string url = "";
             try
-            {                
+            {
                 string query = string.Format("select CreatedById, UpdatedDate, UpdatedById, Id, TotalAccounts, Status, ResultFileUrl from BillingPreviewRun where Id='{0}'", requestId);
                 QueryResult qr = ZuoraServiceInstance.query(query);
 
@@ -83,16 +84,16 @@ namespace ZuoraBillingPreviewApp.App_Code
                 {
                     foreach (BillingPreviewRun record in qr.records)
                     {
-                        url = record.ResultFileUrl;
+                        return new BillingPreviewRunResult(record.Status, record.ResultFileUrl, (int) record.TotalAccounts, (DateTime) record.UpdatedDate);
                     }
                 }
             }
             catch
             {
-                
+
             }
 
-            return url;
+            return new BillingPreviewRunResult("Error", "", 0, DateTime.Now);
         }
 
         public SaveResultStatus ProcessSingleRequest(SaveResult[] results)
@@ -122,9 +123,26 @@ namespace ZuoraBillingPreviewApp.App_Code
         }
     }
 
-    public class SaveResultStatus{
+    public class SaveResultStatus
+    {
         public string RequestId { get; set; }
-        public string Message {get;set;}
+        public string Message { get; set; }
         public bool Success { get; set; }
-    }    
+    }
+
+    public class BillingPreviewRunResult
+    {
+        public string Status { get; set; }
+        public string ResultFileUrl { get; set; }
+        public int TotalAccounts { get; set; }
+        public DateTime UpdateDate { get; set; }
+
+        public BillingPreviewRunResult(string status, string resultFileUrl, int totalAccounts, DateTime updateDate)
+        {
+            this.Status = status;
+            this.ResultFileUrl = resultFileUrl;
+            this.TotalAccounts = totalAccounts;
+            this.UpdateDate = updateDate;
+        }
+    }
 }

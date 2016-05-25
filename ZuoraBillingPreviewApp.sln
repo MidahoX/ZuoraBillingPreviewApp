@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZuoraBillingPreviewApp", "ZuoraBillingPreviewApp\ZuoraBillingPreviewApp.csproj", "{4C63B968-6AEC-46D5-B965-298D1C21B3C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZuoraBillingAppUnitTest", "ZuoraBillingAppUnitTest\ZuoraBillingAppUnitTest.csproj", "{6B6C23C9-AF9F-4CBB-AE12-00155EE4E9FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZuoraBillingPreviewApp.Tests", "ZuoraBillingAppUnitTest\ZuoraBillingPreviewApp.Tests.csproj", "{6B6C23C9-AF9F-4CBB-AE12-00155EE4E9FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

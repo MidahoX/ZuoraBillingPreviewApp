@@ -32,22 +32,20 @@ namespace ZuoraBillingPreviewApp
             // disable button click
             btnSubmit.IsEnabled = false;
 
-            var slowTask = Task<SaveResultStatus>.Factory.StartNew(() => SubmitBillingPreviewRequest());
-
-            // update text result and show spinning icon
-
+            // create async function
+            var slowTask = Task<BillingPreviewRunResult>.Factory.StartNew(() => SubmitBillingPreviewRequest());            
             await slowTask;
-            // update result
-
-            lbResult.Content = slowTask.Result.Message;
+            
+            // update text result and show spinning icon
+            lbResult.Content = slowTask.Result.ResultFileUrl;
 
             // enable button click
             btnSubmit.IsEnabled = true;
-        }
+        }                
 
-        private SaveResultStatus SubmitBillingPreviewRequest()
+        private BillingPreviewRunResult SubmitBillingPreviewRequest()
         {
-            string url = "";
+            BillingPreviewRunResult result = null;
 
             string userId = txtApiUserId.Text;
             string password = txtApiUserPassword.Password;
@@ -60,17 +58,22 @@ namespace ZuoraBillingPreviewApp
             if (!string.IsNullOrWhiteSpace(requestId))
             {
                 // try 5 times to wait for the result.
-                for (int i = 0; i < 5 && url != ""; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     // check for result
-                    url = billingService.GetBillingRequestById(requestId);
+                    result = billingService.GetBillingRequestById(requestId);
+
+                    // break if the request is complete
+                    if (result.Status == "Completed")
+                        break;
+
 
                     // sleep 5 seconds
                     Thread.Sleep(5000);
                 }
             }
             
-            return new SaveResultStatus();
+            return result;
         }
     }
 }
