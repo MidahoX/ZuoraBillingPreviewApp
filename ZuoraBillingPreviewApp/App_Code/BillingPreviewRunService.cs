@@ -11,7 +11,7 @@ namespace ZuoraBillingPreviewApp.App_Code
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public string TargetDate { get; set; }        
+        public string TargetDate { get; set; }
 
         private ZuoraService ZuoraServiceInstance;
 
@@ -39,15 +39,17 @@ namespace ZuoraBillingPreviewApp.App_Code
                 {
                     return false;
                 }
-            }catch{
+            }
+            catch
+            {
                 return false;
             }
-        }        
+        }
 
-        public string SubmitBillingPreviewRequest(string targetDate)
+        public string SubmitBillingPreviewRequest(DateTime targetDate)
         {
             BillingPreviewRun billPreviewRun = new BillingPreviewRun();
-            billPreviewRun.TargetDate = new DateTime(2017, 1, 1);
+            billPreviewRun.TargetDate = targetDate;
             billPreviewRun.TargetDateSpecified = true;
 
             // create zuora request object
@@ -67,15 +69,14 @@ namespace ZuoraBillingPreviewApp.App_Code
             }
             catch
             {
-                return "";
+                return ""; 
             }
         }
 
-        public string GetBillingRequestById(string requestId)
+        public BillingPreviewRunResult GetBillingRequestById(string requestId)
         {
-            string url = "";
             try
-            {                
+            {
                 string query = string.Format("select CreatedById, UpdatedDate, UpdatedById, Id, TotalAccounts, Status, ResultFileUrl from BillingPreviewRun where Id='{0}'", requestId);
                 QueryResult qr = ZuoraServiceInstance.query(query);
 
@@ -83,16 +84,16 @@ namespace ZuoraBillingPreviewApp.App_Code
                 {
                     foreach (BillingPreviewRun record in qr.records)
                     {
-                        url = record.ResultFileUrl;
+                        return new BillingPreviewRunResult(record.Status, record.ResultFileUrl, (int) record.TotalAccounts, (DateTime) record.UpdatedDate, "", requestId);
                     }
                 }
             }
             catch
             {
-                
+
             }
 
-            return url;
+            return new BillingPreviewRunResult("Error", "", 0, DateTime.Now, "", requestId);
         }
 
         public SaveResultStatus ProcessSingleRequest(SaveResult[] results)
@@ -122,9 +123,30 @@ namespace ZuoraBillingPreviewApp.App_Code
         }
     }
 
-    public class SaveResultStatus{
+    public class SaveResultStatus
+    {
         public string RequestId { get; set; }
-        public string Message {get;set;}
+        public string Message { get; set; }
         public bool Success { get; set; }
-    }    
+    }
+
+    public class BillingPreviewRunResult
+    {
+        public string Status { get; set; }
+        public string ResultFileUrl { get; set; }
+        public int TotalAccounts { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public string Message { get; set; }
+        public string RequestId { get; set; }
+
+        public BillingPreviewRunResult(string status, string resultFileUrl, int totalAccounts, DateTime updateDate, string message, string requestId)
+        {
+            this.Status = status;
+            this.ResultFileUrl = resultFileUrl;
+            this.TotalAccounts = totalAccounts;
+            this.UpdateDate = updateDate;
+            this.Message = message;
+            this.RequestId = requestId;
+        }
+    }
 }
